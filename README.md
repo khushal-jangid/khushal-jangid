@@ -1,11 +1,18 @@
 <div align="center">
 
-  <!-- Cyberpunk Terminal Animated Profile SVG (Exactly matching Sushmita Dasari's style) -->
+  <!-- 1. Cyberpunk Terminal Animated Profile SVG (ASCII Portrait + Laser Scanning) -->
   <a href="https://github.com/khushal-jangid/khushal-jangid">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/dark.svg">
       <img alt="Khushal Jangid Terminal Profile" src="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/light.svg" width="100%">
     </picture>
+  </a>
+
+  <br><br>
+
+  <!-- 2. Animated Jet Fighter Heatmap (Jet flies over real contribution grid shooting bullets & blasts) -->
+  <a href="https://github.com/khushal-jangid/khushal-jangid">
+    <img src="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/dist/github-jet.svg" alt="Animated Jet Fighter Heatmap" width="100%" />
   </a>
 
 </div>
