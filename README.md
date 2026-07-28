@@ -85,63 +85,6 @@
 
 ---
 
-## 🚀 Featured Projects
-
-<table>
-  <tr>
-    <td width="50%" valign="top">
-      <h3 align="center">🔐 Smart Secure File Sharing System</h3>
-      <p align="center">
-        <img src="https://img.shields.io/badge/Security-Cloud_Storage-38BDF8?style=flat-square" />
-        <img src="https://img.shields.io/badge/Tech-Python%20|%20AWS-0284C7?style=flat-square" />
-      </p>
-      <ul>
-        <li><b>Cloud Storage Integration:</b> Seamless, encrypted cloud file uploads and retrieval.</li>
-        <li><b>Robust Authentication:</b> Secure user authentication and granular access control.</li>
-        <li><b>Zero Trust Design:</b> End-to-end payload encryption & file sharing policy enforcement.</li>
-      </ul>
-      <p align="center">
-        <a href="https://github.com/khushal-jangid/smart-secure-file-sharing"><b>View Repository ➔</b></a>
-      </p>
-    </td>
-    <td width="50%" valign="top">
-      <h3 align="center">💻 Codeware</h3>
-      <p align="center">
-        <img src="https://img.shields.io/badge/Cloud-IDE-7C3AED?style=flat-square" />
-        <img src="https://img.shields.io/badge/Tech-Python%20|%20Docker-38BDF8?style=flat-square" />
-      </p>
-      <ul>
-        <li><b>Cloud-Based Editor:</b> Browser-accessible IDE built for seamless software development.</li>
-        <li><b>Isolated Environments:</b> Containerized workspace instances using Docker integration.</li>
-        <li><b>Fast Execution:</b> High-performance code execution engine with live output streams.</li>
-      </ul>
-      <p align="center">
-        <a href="https://github.com/khushal-jangid/codeware"><b>View Repository ➔</b></a>
-      </p>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="2" valign="top">
-      <h3 align="center">🤖 Cloud-Based AI Projects</h3>
-      <p align="center">
-        <img src="https://img.shields.io/badge/AI-Automation-10B981?style=flat-square" />
-        <img src="https://img.shields.io/badge/Architecture-Serverless-7C3AED?style=flat-square" />
-        <img src="https://img.shields.io/badge/Cloud-AWS_Lambda_%7C_GCP-38BDF8?style=flat-square" />
-      </p>
-      <ul>
-        <li><b>Serverless AI Workflows:</b> Event-driven architecture leveraging cloud serverless compute.</li>
-        <li><b>Automated Data Pipelines:</b> Machine learning inference triggered via cloud events and webhooks.</li>
-        <li><b>Cost & Resource Optimization:</b> Auto-scaling infrastructure with zero idle server cost.</li>
-      </ul>
-      <p align="center">
-        <a href="https://github.com/khushal-jangid/cloud-ai-projects"><b>View Repository ➔</b></a>
-      </p>
-    </td>
-  </tr>
-</table>
-
----
-
 ## 📊 GitHub Performance & Analytics
 
 <div align="center">
@@ -165,14 +108,6 @@
   <a href="https://github.com/khushal-jangid">
     <img src="https://github-readme-streak-stats.herokuapp.com/?user=khushal-jangid&background=0B1120&border=1E293B&stroke=38BDF8&alarm=38BDF8&fire=38BDF8&ring=38BDF8&currStreakNum=38BDF8&sideNums=38BDF8&dates=E2E8F0&currStreakLabel=38BDF8&sideLabels=E2E8F0" alt="GitHub Streak" />
   </a>
-</div>
-
----
-
-## 📈 Activity Graph
-
-<div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=khushal-jangid&theme=react-dark&custom_title=Khushal's%20DevOps%20Contribution%20Graph" width="100%" alt="Activity Graph" />
 </div>
 
 ---
