@@ -22,7 +22,6 @@ def image_to_ascii(img_path, width=64):
     
     # Calculate aspect ratio
     aspect_ratio = img.height / img.width
-    # Character aspect ratio correction (characters are taller than wide, ~0.55)
     height = int(width * aspect_ratio * 0.45)
     height = min(height, 58) # max lines fit in panel
     
@@ -36,7 +35,6 @@ def image_to_ascii(img_path, width=64):
     pixels = img.getdata()
     ascii_str = ""
     for pixel in pixels:
-        # map 0-255 to ascii chars index
         index = int((pixel / 255) * (len(ASCII_CHARS) - 1))
         ascii_str += ASCII_CHARS[index]
         
@@ -88,9 +86,23 @@ def build_svg(ascii_lines, theme="dark"):
     <stop offset="50%" stop-color="{border_mid}"/>
     <stop offset="100%" stop-color="{border_end}"/>
   </linearGradient>
+  <linearGradient id="laserBeamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <stop offset="0%" stop-color="#22D3EE" stop-opacity="0"/>
+    <stop offset="20%" stop-color="#22D3EE" stop-opacity="0.8"/>
+    <stop offset="50%" stop-color="#A5F3FC" stop-opacity="1"/>
+    <stop offset="80%" stop-color="#7C3AED" stop-opacity="0.8"/>
+    <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+  </linearGradient>
   <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
     <rect width="4" height="1" fill="#7DD3FC" opacity="0.04"/>
   </pattern>
+  <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+    <feGaussianBlur stdDeviation="3" result="blur"/>
+    <feMerge>
+      <feMergeNode in="blur"/>
+      <feMergeNode in="SourceGraphic"/>
+    </feMerge>
+  </filter>
   <mask id="revealMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1180" height="620">
     <rect x="0" y="0" width="1180" height="0" fill="#fff">
       <animate attributeName="height" from="0" to="610" dur="2.2s" begin="0.1s" fill="freeze" calcMode="spline" keySplines="0.25 0.1 0.25 1"/>
@@ -131,7 +143,10 @@ def build_svg(ascii_lines, theme="dark"):
 
 <!-- Top Window Bar -->
 <text x="590" y="34" text-anchor="middle" class="title-text">khushal@devos ~ % ./profile.sh --live</text>
-<text x="1110" y="34" text-anchor="end" class="header-live">🔴 SCANNING</text>
+<text x="1110" y="34" text-anchor="end" class="header-live">
+  <tspan fill="#EF4444">🔴 SCANNING</tspan>
+  <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite" />
+</text>
 
 <!-- Left Panel: VISUAL.MAP -->
 <rect x="25" y="60" width="460" height="525" class="panel-box" />
@@ -171,6 +186,11 @@ def build_svg(ascii_lines, theme="dark"):
   <text x="520" y="554"><tspan class="label-val"> See live GitHub stats badges below in README ↓</tspan></text>
 </g>
 
+<!-- Moving Laser Beam Scanning Line Animation across the terminal window -->
+<rect x="25" y="60" width="1130" height="3" fill="url(#laserBeamGrad)" filter="url(#softGlow)">
+  <animate attributeName="y" values="60;575;60" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1" />
+</rect>
+
 </svg>"""
     return svg_content
 
@@ -184,4 +204,4 @@ if __name__ == "__main__":
     with open(LIGHT_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(light_svg)
         
-    print("Successfully generated dark.svg and light.svg from photo!")
+    print("Successfully generated dark.svg and light.svg with scanning animation!")
