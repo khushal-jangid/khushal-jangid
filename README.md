@@ -1,6 +1,16 @@
 <div align="center">
 
-  <!-- Header Banner / Avatar -->
+  <!-- Animated Jet Contribution Heatmap Banner (Matches Sushmita Dasari Repo Style) -->
+  <a href="https://github.com/khushal-jangid/khushal-jangid">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/dark.svg">
+      <img alt="GitHub Profile Animated Jet Heatmap" src="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/light.svg" width="100%">
+    </picture>
+  </a>
+
+  <br><br>
+
+  <!-- Profile Avatar -->
   <a href="https://github.com/khushal-jangid">
     <img src="profile.jpg" width="160" height="160" style="border-radius: 50%; border: 4px solid #E056FD; box-shadow: 0 0 25px rgba(224, 86, 253, 0.6);" alt="Khushal Jangid">
   </a>
