@@ -189,11 +189,11 @@ def build_svg(ascii_lines, theme="dark"):
   <text x="520" y="295"><tspan class="label-key">. Core.Cloud:</tspan><tspan class="label-dim"> ............................... </tspan><tspan class="label-val">AWS, Google Cloud, Azure (learning)</tspan></text>
   <text x="520" y="319"><tspan class="label-key">. Core.DevOps:</tspan><tspan class="label-dim"> .............................. </tspan><tspan class="label-val">Docker, Kubernetes, Jenkins, Actions, Terraform, Ansible</tspan></text>
   <text x="520" y="343"><tspan class="label-key">. Core.System:</tspan><tspan class="label-dim"> .............................. </tspan><tspan class="label-val">Linux, Bash Scripting, Networking, Git &amp; GitHub</tspan></text>
-  <text x="520" y="367"><tspan class="label-key">. Core.Lang:</tspan><tspan class="label-dim"> ................................ </tspan><tspan class="label-val">Python, Java, JavaScript, HTML, CSS</tspan></text>
+  <text x="520" y="367"><tspan class="label-key">. Core.Lang:</tspan><tspan class="label-dim"> ................................ </tspan><tspan class="label-val">Python</tspan></text>
   <text x="520" y="391"><tspan class="label-key">. Core.Projects:</tspan><tspan class="label-dim"> ............................ </tspan><tspan class="label-val">Smart Secure File Sharing, Codeware, Cloud AI</tspan></text>
 
   <text x="520" y="425" class="section-hdr">- Contact ----------------------------------------------------</text>
-  <text x="520" y="449"><tspan class="label-key">. Grid.Mail:</tspan><tspan class="label-dim"> ................................ </tspan><tspan class="label-val">khushal.jangid.devops@gmail.com</tspan></text>
+  <text x="520" y="449"><tspan class="label-key">. Grid.Mail:</tspan><tspan class="label-dim"> ................................ </tspan><tspan class="label-val">choyal034@gmail.com</tspan></text>
   <text x="520" y="473"><tspan class="label-key">. Grid.LinkedIn:</tspan><tspan class="label-dim"> ............................ </tspan><tspan class="label-val">khushal-jangid</tspan></text>
   <text x="520" y="497"><tspan class="label-key">. Grid.Github:</tspan><tspan class="label-dim"> .............................. </tspan><tspan class="label-val">khushal-jangid</tspan></text>
 
@@ -214,4 +214,4 @@ if __name__ == "__main__":
     with open(LIGHT_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(light_svg)
         
-    print("Successfully generated full uncropped portrait dark.svg & light.svg with top-to-bottom laser scan animation!")
+    print("Successfully generated dark.svg & light.svg with updated email and removed languages!")
