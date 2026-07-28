@@ -6,31 +6,27 @@ IMAGE_PATH = r"C:\Users\choya\OneDrive\Desktop\IMG_20260415_112529591_PORTRAIT2-
 DARK_OUTPUT_PATH = r"C:\Users\choya\khushal-jangid\dark.svg"
 LIGHT_OUTPUT_PATH = r"C:\Users\choya\khushal-jangid\light.svg"
 
-# ASCII Charset for rendering contrast
+# ASCII Charset for detailed portrait rendering
 ASCII_CHARS = "@%#*+=-:. "
 
-def image_to_ascii(img_path, width=64):
+def image_to_ascii(img_path, width=54):
     try:
         img = Image.open(img_path)
     except Exception as e:
         print(f"Error opening image: {e}")
         sys.exit(1)
         
-    # Crop to upper torso / face (top 75% of the portrait)
+    # Full image (No Cropping) so full portrait & body is shown
     w, h = img.size
-    img = img.crop((0, 0, w, int(h * 0.75)))
-    
-    # Calculate aspect ratio
-    aspect_ratio = img.height / img.width
-    height = int(width * aspect_ratio * 0.45)
-    height = min(height, 58) # max lines fit in panel
+    aspect_ratio = h / w
+    height = int(width * aspect_ratio * 0.46)
+    height = min(height, 56) # Fits comfortably inside 525px panel
     
     img = img.resize((width, height))
-    img = img.convert("L") # convert to grayscale
+    img = img.convert("L")
     
-    # Enhance contrast
     enhancer = ImageEnhance.Contrast(img)
-    img = enhancer.enhance(1.8)
+    img = enhancer.enhance(1.85)
     
     pixels = img.getdata()
     ascii_str = ""
@@ -60,15 +56,16 @@ def build_svg(ascii_lines, theme="dark"):
     text_val = "#E2E8F0" if is_dark else "#0F172A"
     text_dim = "#64748B" if is_dark else "#94A3B8"
     text_sec = "#10B981" if is_dark else "#059669"
+    laser_color = "#00F5D4" if is_dark else "#0284C7"
     
-    # ASCII Art tspan generation
+    # ASCII Art tspan generation (FULL PORTRAIT)
     tspan_lines = []
-    start_y = 100
-    line_spacing = 8.2
+    start_y = 102
+    line_spacing = 8.3
     for idx, line in enumerate(ascii_lines):
         y_pos = start_y + (idx * line_spacing)
         escaped_line = html.escape(line).replace(" ", "&#160;")
-        tspan_lines.append(f'<tspan x="45" y="{y_pos:.1f}">{escaped_line}</tspan>')
+        tspan_lines.append(f'<tspan x="40" y="{y_pos:.1f}">{escaped_line}</tspan>')
     ascii_tspans = "\n".join(tspan_lines)
     
     svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="610" viewBox="0 0 1180 610">
@@ -81,28 +78,31 @@ def build_svg(ascii_lines, theme="dark"):
       <animate attributeName="stop-color" values="#7C3AED;#38BDF8;#22D3EE;#7C3AED" dur="9s" repeatCount="indefinite"/>
     </stop>
   </linearGradient>
+
   <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
     <stop offset="0%" stop-color="{border_start}"/>
     <stop offset="50%" stop-color="{border_mid}"/>
     <stop offset="100%" stop-color="{border_end}"/>
   </linearGradient>
-  <linearGradient id="laserBeamGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-    <stop offset="0%" stop-color="#22D3EE" stop-opacity="0"/>
-    <stop offset="20%" stop-color="#22D3EE" stop-opacity="0.8"/>
-    <stop offset="50%" stop-color="#A5F3FC" stop-opacity="1"/>
-    <stop offset="80%" stop-color="#7C3AED" stop-opacity="0.8"/>
-    <stop offset="100%" stop-color="#7C3AED" stop-opacity="0"/>
+
+  <linearGradient id="scanBeamGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="{laser_color}" stop-opacity="0"/>
+    <stop offset="70%" stop-color="{laser_color}" stop-opacity="0.35"/>
+    <stop offset="100%" stop-color="{laser_color}" stop-opacity="0.95"/>
   </linearGradient>
+
   <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
     <rect width="4" height="1" fill="#7DD3FC" opacity="0.04"/>
   </pattern>
-  <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
-    <feGaussianBlur stdDeviation="3" result="blur"/>
+
+  <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur stdDeviation="2.5" result="blur"/>
     <feMerge>
       <feMergeNode in="blur"/>
       <feMergeNode in="SourceGraphic"/>
     </feMerge>
   </filter>
+
   <mask id="revealMask" maskUnits="userSpaceOnUse" x="0" y="0" width="1180" height="620">
     <rect x="0" y="0" width="1180" height="0" fill="#fff">
       <animate attributeName="height" from="0" to="610" dur="2.2s" begin="0.1s" fill="freeze" calcMode="spline" keySplines="0.25 0.1 0.25 1"/>
@@ -122,7 +122,7 @@ def build_svg(ascii_lines, theme="dark"):
   .panel-box {{ fill: {panel_bg}; fill-opacity: 0.75; stroke: {panel_stroke}; stroke-width: 1; rx: 8; }}
   .panel-title {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 11px; letter-spacing: 2px; fill: {text_dim}; font-weight: bold; }}
   
-  .ascii-art {{ font-family: 'Courier New', monospace; font-size: 7.2px; fill: url(#asciiGrad); letter-spacing: 0.5px; }}
+  .ascii-art {{ font-family: 'Courier New', monospace; font-size: 6.8px; fill: url(#asciiGrad); letter-spacing: 0.4px; }}
   
   .user-header {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 15px; font-weight: bold; fill: {text_hdr}; }}
   .label-key {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; font-weight: bold; fill: {text_key}; }}
@@ -148,13 +148,28 @@ def build_svg(ascii_lines, theme="dark"):
   <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite" />
 </text>
 
-<!-- Left Panel: VISUAL.MAP -->
+<!-- Left Panel: VISUAL.MAP (FULL UNCROPPED PORTRAIT) -->
 <rect x="25" y="60" width="460" height="525" class="panel-box" />
 <text x="45" y="82" class="panel-title">V I S U A L . M A P</text>
 
 <text class="ascii-art">
 {ascii_tspans}
 </text>
+
+<!-- Top-to-Bottom Moving Laser Beam Scanning Line (Left Panel Image Scan) -->
+<rect x="30" y="90" width="450" height="18" fill="url(#scanBeamGrad)" opacity="0.6">
+  <animate attributeName="y" from="90" to="560" dur="2.6s" repeatCount="indefinite" />
+</rect>
+<line x1="30" y1="108" x2="480" y2="108" stroke="{laser_color}" stroke-width="2.5" opacity="0.95" filter="url(#glowFilter)">
+  <animate attributeName="y1" from="108" to="578" dur="2.6s" repeatCount="indefinite" />
+  <animate attributeName="y2" from="108" to="578" dur="2.6s" repeatCount="indefinite" />
+</line>
+
+<!-- Global Terminal Vertical Scanning Beam (Top to Bottom across entire terminal) -->
+<line x1="25" y1="60" x2="1155" y2="60" stroke="#38BDF8" stroke-width="1.5" opacity="0.7" filter="url(#glowFilter)">
+  <animate attributeName="y1" from="60" to="580" dur="4s" repeatCount="indefinite" />
+  <animate attributeName="y2" from="60" to="580" dur="4s" repeatCount="indefinite" />
+</line>
 
 <!-- Right Panel: SYSTEM.INFO -->
 <rect x="500" y="60" width="655" height="525" class="panel-box" />
@@ -186,11 +201,6 @@ def build_svg(ascii_lines, theme="dark"):
   <text x="520" y="554"><tspan class="label-val"> See live GitHub stats badges below in README ↓</tspan></text>
 </g>
 
-<!-- Moving Laser Beam Scanning Line Animation across the terminal window -->
-<rect x="25" y="60" width="1130" height="3" fill="url(#laserBeamGrad)" filter="url(#softGlow)">
-  <animate attributeName="y" values="60;575;60" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines="0.4 0 0.6 1; 0.4 0 0.6 1" />
-</rect>
-
 </svg>"""
     return svg_content
 
@@ -204,4 +214,4 @@ if __name__ == "__main__":
     with open(LIGHT_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(light_svg)
         
-    print("Successfully generated dark.svg and light.svg with scanning animation!")
+    print("Successfully generated full uncropped portrait dark.svg & light.svg with top-to-bottom laser scan animation!")
