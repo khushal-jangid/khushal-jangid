@@ -1,67 +1,43 @@
 <div align="center">
 
-  <!-- Animated Jet Contribution Heatmap Banner (Matches Sushmita Dasari Repo Theme) -->
+  <!-- Cyberpunk Terminal Animated Profile SVG (Exactly matching Sushmita Dasari's style) -->
   <a href="https://github.com/khushal-jangid/khushal-jangid">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/dark.svg">
-      <img alt="GitHub Profile Animated Jet Heatmap" src="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/light.svg" width="100%">
+      <img alt="Khushal Jangid Terminal Profile" src="https://raw.githubusercontent.com/khushal-jangid/khushal-jangid/main/light.svg" width="100%">
     </picture>
   </a>
 
-  <br><br>
+</div>
 
-  <!-- Profile Avatar with Matrix Green Glow -->
-  <a href="https://github.com/khushal-jangid">
-    <img src="profile.jpg" width="160" height="160" style="border-radius: 50%; border: 4px solid #39D353; box-shadow: 0 0 25px rgba(57, 211, 83, 0.6);" alt="Khushal Jangid">
-  </a>
+<br>
 
-  <!-- Typing Header (GitHub Green Theme) -->
+<div align="center">
+
+  <!-- Animated Header Typing Effect -->
   <h1 align="center">
-    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=32&pause=1000&color=39D353&center=true&vCenter=true&repeat=true&width=500&height=60&lines=Hi%2C+I'm+Khushal+Jangid+%F0%9F%91%8B" alt="Header Typing" />
+    <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=32&pause=1000&color=38BDF8&center=true&vCenter=true&repeat=true&width=500&height=60&lines=Hi%2C+I'm+Khushal+Jangid+%F0%9F%91%8B" alt="Header Typing" />
   </h1>
 
   <h3>⚡ Aspiring DevOps & Cloud Engineer | B.Tech CSE Student 🎓</h3>
 
-  <!-- Typing Subtitle -->
+  <!-- Typing Animation Subtitle -->
   <p align="center">
     <a href="https://github.com/khushal-jangid">
-      <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=7EE787&center=true&vCenter=true&repeat=true&width=600&height=45&lines=Building+Scalable+Cloud+Infrastructure+%E2%98%81%EF%B8%8F;Automating+Everything+with+CI%2FCD+%F0%9F%9A%80;Exploring+DevSecOps+%26+Cloud+Security+%F0%9F%9E%A1%EF%B8%8F;Docker+%E2%80%A2+Kubernetes+%E2%80%A2+Terraform+%E2%80%A2+AWS+%E2%9A%A1" alt="Subtyping Animation" />
+      <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=20&pause=1000&color=22D3EE&center=true&vCenter=true&repeat=true&width=600&height=45&lines=Building+Scalable+Cloud+Infrastructure+%E2%98%81%EF%B8%8F;Automating+Everything+with+CI%2FCD+%F0%9F%9A%80;Exploring+DevSecOps+%26+Cloud+Security+%F0%9F%9E%A1%EF%B8%8F;Docker+%E2%80%A2+Kubernetes+%E2%80%A2+Terraform+%E2%80%A2+AWS+%E2%9A%A1" alt="Subtyping Animation" />
     </a>
   </p>
 
   <!-- Badges Row -->
   <p align="center">
     <a href="https://linkedin.com/in/khushal-jangid"><img src="https://img.shields.io/badge/LinkedIn-Khushal_Jangid-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
-    <a href="mailto:khushal.jangid.devops@gmail.com"><img src="https://img.shields.io/badge/Email-Contact_Me-2EA44F?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
+    <a href="mailto:khushal.jangid.devops@gmail.com"><img src="https://img.shields.io/badge/Email-Contact_Me-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"></a>
     <a href="https://github.com/khushal-jangid"><img src="https://img.shields.io/badge/GitHub-khushal--jangid-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"></a>
   </p>
 
 </div>
 
-<hr style="border: 1px solid #39D353;">
-
-## 👨‍💻 About Me
-
-```yaml
-name: Khushal Jangid
-degree: B.Tech in Computer Science & Engineering
-location: India 🇮🇳
-role: Aspiring DevOps & Cloud Security Engineer
-focus_areas:
-  - DevOps Engineering & CI/CD Automation
-  - Multi-Cloud Infrastructure (AWS & Google Cloud)
-  - Containerization & Kubernetes Orchestration
-  - Infrastructure as Code (Terraform & Ansible)
-  - System Security & Automation Scripts
-status: 🚀 Open for Cloud & DevOps Opportunities
-```
-
-- 🎓 **Education:** Pursuing B.Tech CSE with a strong foundation in Operating Systems, Networking, and Cloud Computing.
-- ☁️ **Cloud Passion:** Designing resilient, high-availability cloud architecture with self-healing deployments.
-- ⚙️ **Automation Enthusiast:** Passionate about reducing toil through Bash, Python scripts, and automated workflows.
-- 🛡️ **DevSecOps Advocate:** Integrating security checks directly into CI/CD build pipelines.
-
----
+<hr style="border: 1px solid #38BDF8;">
 
 ## 🛠️ DevOps & Cloud Tech Stack
 
@@ -113,8 +89,8 @@ status: 🚀 Open for Cloud & DevOps Opportunities
     <td width="50%" valign="top">
       <h3 align="center">🔐 Smart Secure File Sharing System</h3>
       <p align="center">
-        <img src="https://img.shields.io/badge/Security-Cloud_Storage-39D353?style=flat-square" />
-        <img src="https://img.shields.io/badge/Tech-Python%20|%20AWS-2EA44F?style=flat-square" />
+        <img src="https://img.shields.io/badge/Security-Cloud_Storage-38BDF8?style=flat-square" />
+        <img src="https://img.shields.io/badge/Tech-Python%20|%20AWS-0284C7?style=flat-square" />
       </p>
       <ul>
         <li><b>Cloud Storage Integration:</b> Seamless, encrypted cloud file uploads and retrieval.</li>
@@ -128,8 +104,8 @@ status: 🚀 Open for Cloud & DevOps Opportunities
     <td width="50%" valign="top">
       <h3 align="center">💻 Codeware</h3>
       <p align="center">
-        <img src="https://img.shields.io/badge/Cloud-IDE-0070F3?style=flat-square" />
-        <img src="https://img.shields.io/badge/Tech-JS%20|%20Docker-39D353?style=flat-square" />
+        <img src="https://img.shields.io/badge/Cloud-IDE-7C3AED?style=flat-square" />
+        <img src="https://img.shields.io/badge/Tech-JS%20|%20Docker-38BDF8?style=flat-square" />
       </p>
       <ul>
         <li><b>Cloud-Based Editor:</b> Browser-accessible IDE built for seamless software development.</li>
@@ -145,9 +121,9 @@ status: 🚀 Open for Cloud & DevOps Opportunities
     <td colspan="2" valign="top">
       <h3 align="center">🤖 Cloud-Based AI Projects</h3>
       <p align="center">
-        <img src="https://img.shields.io/badge/AI-Automation-39D353?style=flat-square" />
-        <img src="https://img.shields.io/badge/Architecture-Serverless-2EA44F?style=flat-square" />
-        <img src="https://img.shields.io/badge/Cloud-AWS_Lambda_%7C_GCP-7EE787?style=flat-square" />
+        <img src="https://img.shields.io/badge/AI-Automation-10B981?style=flat-square" />
+        <img src="https://img.shields.io/badge/Architecture-Serverless-7C3AED?style=flat-square" />
+        <img src="https://img.shields.io/badge/Cloud-AWS_Lambda_%7C_GCP-38BDF8?style=flat-square" />
       </p>
       <ul>
         <li><b>Serverless AI Workflows:</b> Event-driven architecture leveraging cloud serverless compute.</li>
@@ -170,12 +146,12 @@ status: 🚀 Open for Cloud & DevOps Opportunities
     <tr>
       <td>
         <a href="https://github.com/khushal-jangid">
-          <img height="180em" src="https://github-readme-stats.vercel.app/api?username=khushal-jangid&show_icons=true&bg_color=0d1117&title_color=39d353&text_color=c9d1d9&icon_color=39d353&border_color=30363d&include_all_commits=true&count_private=true" alt="Khushal's GitHub Stats" />
+          <img height="180em" src="https://github-readme-stats.vercel.app/api?username=khushal-jangid&show_icons=true&bg_color=0b1120&title_color=38bdf8&text_color=e2e8f0&icon_color=38bdf8&border_color=1e293b&include_all_commits=true&count_private=true" alt="Khushal's GitHub Stats" />
         </a>
       </td>
       <td>
         <a href="https://github.com/khushal-jangid">
-          <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=khushal-jangid&layout=compact&bg_color=0d1117&title_color=39d353&text_color=c9d1d9&icon_color=39d353&border_color=30363d&langs_count=6" alt="Top Languages" />
+          <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=khushal-jangid&layout=compact&bg_color=0b1120&title_color=38bdf8&text_color=e2e8f0&icon_color=38bdf8&border_color=1e293b&langs_count=6" alt="Top Languages" />
         </a>
       </td>
     </tr>
@@ -184,7 +160,7 @@ status: 🚀 Open for Cloud & DevOps Opportunities
   <br>
 
   <a href="https://github.com/khushal-jangid">
-    <img src="https://github-readme-streak-stats.herokuapp.com/?user=khushal-jangid&background=0D1117&border=30363D&stroke=39D353&alarm=39D353&fire=39D353&ring=39D353&currStreakNum=39D353&sideNums=39D353&dates=C9D1D9&currStreakLabel=39D353&sideLabels=C9D1D9" alt="GitHub Streak" />
+    <img src="https://github-readme-streak-stats.herokuapp.com/?user=khushal-jangid&background=0B1120&border=1E293B&stroke=38BDF8&alarm=38BDF8&fire=38BDF8&ring=38BDF8&currStreakNum=38BDF8&sideNums=38BDF8&dates=E2E8F0&currStreakLabel=38BDF8&sideLabels=E2E8F0" alt="GitHub Streak" />
   </a>
 </div>
 
@@ -193,7 +169,7 @@ status: 🚀 Open for Cloud & DevOps Opportunities
 ## 📈 Activity Graph
 
 <div align="center">
-  <img src="https://github-readme-activity-graph.vercel.app/graph?username=khushal-jangid&theme=github-compact&custom_title=Khushal's%20DevOps%20Contribution%20Graph" width="100%" alt="Activity Graph" />
+  <img src="https://github-readme-activity-graph.vercel.app/graph?username=khushal-jangid&theme=react-dark&custom_title=Khushal's%20DevOps%20Contribution%20Graph" width="100%" alt="Activity Graph" />
 </div>
 
 ---
@@ -206,7 +182,7 @@ status: 🚀 Open for Cloud & DevOps Opportunities
     <img src="https://img.shields.io/badge/LinkedIn-Khushal_Jangid-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
   <a href="mailto:khushal.jangid.devops@gmail.com">
-    <img src="https://img.shields.io/badge/Email-khushal.jangid.devops@gmail.com-2EA44F?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+    <img src="https://img.shields.io/badge/Email-khushal.jangid.devops@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
   </a>
   <a href="https://github.com/khushal-jangid">
     <img src="https://img.shields.io/badge/GitHub-khushal--jangid-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
@@ -221,5 +197,5 @@ status: 🚀 Open for Cloud & DevOps Opportunities
 
 <div align="center">
   <p><i>"Infrastructure as Code, Security by Design, Automation by Habit."</i></p>
-  <img src="https://komarev.com/ghpvc/?username=khushal-jangid&style=flat-square&color=39D353" alt="Profile Views" />
+  <img src="https://komarev.com/ghpvc/?username=khushal-jangid&style=flat-square&color=38BDF8" alt="Profile Views" />
 </div>

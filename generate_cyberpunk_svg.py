@@ -1,4 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="610" viewBox="0 0 1180 610">
+import sys
+from PIL import Image, ImageEnhance
+import html
+
+IMAGE_PATH = r"C:\Users\choya\OneDrive\Desktop\IMG_20260415_112529591_PORTRAIT2-892kb.jpg"
+DARK_OUTPUT_PATH = r"C:\Users\choya\khushal-jangid\dark.svg"
+LIGHT_OUTPUT_PATH = r"C:\Users\choya\khushal-jangid\light.svg"
+
+# ASCII Charset for rendering contrast
+ASCII_CHARS = "@%#*+=-:. "
+
+def image_to_ascii(img_path, width=64):
+    try:
+        img = Image.open(img_path)
+    except Exception as e:
+        print(f"Error opening image: {e}")
+        sys.exit(1)
+        
+    # Crop to upper torso / face (top 75% of the portrait)
+    w, h = img.size
+    img = img.crop((0, 0, w, int(h * 0.75)))
+    
+    # Calculate aspect ratio
+    aspect_ratio = img.height / img.width
+    # Character aspect ratio correction (characters are taller than wide, ~0.55)
+    height = int(width * aspect_ratio * 0.45)
+    height = min(height, 58) # max lines fit in panel
+    
+    img = img.resize((width, height))
+    img = img.convert("L") # convert to grayscale
+    
+    # Enhance contrast
+    enhancer = ImageEnhance.Contrast(img)
+    img = enhancer.enhance(1.8)
+    
+    pixels = img.getdata()
+    ascii_str = ""
+    for pixel in pixels:
+        # map 0-255 to ascii chars index
+        index = int((pixel / 255) * (len(ASCII_CHARS) - 1))
+        ascii_str += ASCII_CHARS[index]
+        
+    ascii_lines = []
+    for i in range(0, len(ascii_str), width):
+        ascii_lines.append(ascii_str[i:i+width])
+        
+    return ascii_lines
+
+def build_svg(ascii_lines, theme="dark"):
+    is_dark = (theme == "dark")
+    
+    bg_color = "#0B1120" if is_dark else "#F8FAFC"
+    border_start = "#7C3AED" if is_dark else "#3B82F6"
+    border_mid = "#22D3EE" if is_dark else "#06B6D4"
+    border_end = "#10B981" if is_dark else "#10B981"
+    
+    panel_bg = "#0F172A" if is_dark else "#FFFFFF"
+    panel_stroke = "#1E293B" if is_dark else "#E2E8F0"
+    
+    text_hdr = "#38BDF8" if is_dark else "#0284C7"
+    text_key = "#38BDF8" if is_dark else "#0369A1"
+    text_val = "#E2E8F0" if is_dark else "#0F172A"
+    text_dim = "#64748B" if is_dark else "#94A3B8"
+    text_sec = "#10B981" if is_dark else "#059669"
+    
+    # ASCII Art tspan generation
+    tspan_lines = []
+    start_y = 100
+    line_spacing = 8.2
+    for idx, line in enumerate(ascii_lines):
+        y_pos = start_y + (idx * line_spacing)
+        escaped_line = html.escape(line).replace(" ", "&#160;")
+        tspan_lines.append(f'<tspan x="45" y="{y_pos:.1f}">{escaped_line}</tspan>')
+    ascii_tspans = "\n".join(tspan_lines)
+    
+    svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="610" viewBox="0 0 1180 610">
 <defs>
   <linearGradient id="asciiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
     <stop offset="0%" stop-color="#22D3EE">
@@ -9,9 +84,9 @@
     </stop>
   </linearGradient>
   <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" stop-color="#7C3AED"/>
-    <stop offset="50%" stop-color="#22D3EE"/>
-    <stop offset="100%" stop-color="#10B981"/>
+    <stop offset="0%" stop-color="{border_start}"/>
+    <stop offset="50%" stop-color="{border_mid}"/>
+    <stop offset="100%" stop-color="{border_end}"/>
   </linearGradient>
   <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
     <rect width="4" height="1" fill="#7DD3FC" opacity="0.04"/>
@@ -24,24 +99,24 @@
 </defs>
 
 <style>
-  .term-bg { fill: #0B1120; }
-  .window-border { fill: none; stroke: url(#borderGrad); stroke-width: 2; rx: 12; }
-  .dot-red { fill: #EF4444; }
-  .dot-yellow { fill: #F59E0B; }
-  .dot-green { fill: #10B981; }
-  .title-text { font-family: 'Fira Code', 'Courier New', monospace; font-size: 13px; fill: #64748B; }
-  .header-live { font-family: 'Fira Code', 'Courier New', monospace; font-size: 11px; fill: #EF4444; font-weight: bold; }
+  .term-bg {{ fill: {bg_color}; }}
+  .window-border {{ fill: none; stroke: url(#borderGrad); stroke-width: 2; rx: 12; }}
+  .dot-red {{ fill: #EF4444; }}
+  .dot-yellow {{ fill: #F59E0B; }}
+  .dot-green {{ fill: #10B981; }}
+  .title-text {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 13px; fill: {text_dim}; }}
+  .header-live {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 11px; fill: #EF4444; font-weight: bold; }}
   
-  .panel-box { fill: #0F172A; fill-opacity: 0.75; stroke: #1E293B; stroke-width: 1; rx: 8; }
-  .panel-title { font-family: 'Fira Code', 'Courier New', monospace; font-size: 11px; letter-spacing: 2px; fill: #64748B; font-weight: bold; }
+  .panel-box {{ fill: {panel_bg}; fill-opacity: 0.75; stroke: {panel_stroke}; stroke-width: 1; rx: 8; }}
+  .panel-title {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 11px; letter-spacing: 2px; fill: {text_dim}; font-weight: bold; }}
   
-  .ascii-art { font-family: 'Courier New', monospace; font-size: 7.2px; fill: url(#asciiGrad); letter-spacing: 0.5px; }
+  .ascii-art {{ font-family: 'Courier New', monospace; font-size: 7.2px; fill: url(#asciiGrad); letter-spacing: 0.5px; }}
   
-  .user-header { font-family: 'Fira Code', 'Courier New', monospace; font-size: 15px; font-weight: bold; fill: #38BDF8; }
-  .label-key { font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; font-weight: bold; fill: #38BDF8; }
-  .label-val { font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; fill: #E2E8F0; }
-  .label-dim { font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; fill: #64748B; }
-  .section-hdr { font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; font-weight: bold; fill: #10B981; }
+  .user-header {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 15px; font-weight: bold; fill: {text_hdr}; }}
+  .label-key {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; font-weight: bold; fill: {text_key}; }}
+  .label-val {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; fill: {text_val}; }}
+  .label-dim {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; fill: {text_dim}; }}
+  .section-hdr {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; font-weight: bold; fill: {text_sec}; }}
 </style>
 
 <!-- Main Container -->
@@ -63,34 +138,7 @@
 <text x="45" y="82" class="panel-title">V I S U A L . M A P</text>
 
 <text class="ascii-art">
-<tspan x="45" y="100.0">:.....&#160;&#160;&#160;.&#160;&#160;&#160;:=+#*-.....::-+**+**++=&#160;&#160;&#160;&#160;:.&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</tspan>
-<tspan x="45" y="108.2">:......&#160;&#160;..&#160;&#160;:=+#*-.....::-+*****++=...:-.&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.&#160;&#160;&#160;</tspan>
-<tspan x="45" y="116.4">::..........&#160;:==#*-......:-+***+**+=+++++:&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.&#160;&#160;.</tspan>
-<tspan x="45" y="124.6">.............:-=#*-.......:===+++=======-&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;..&#160;&#160;.&#160;&#160;.</tspan>
-<tspan x="45" y="132.8">........&#160;&#160;&#160;&#160;.:-=##-....&#160;...............&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;...:...:.&#160;.</tspan>
-<tspan x="45" y="141.0">....&#160;...&#160;.&#160;&#160;.:-=*#-..&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.&#160;.&#160;:...:&#160;.</tspan>
-<tspan x="45" y="149.2">:.........=-----==-::::::::::::::::::::::::..::::::::-:-:-:::-..</tspan>
-<tspan x="45" y="157.4">::.......:===----------====-=------------------=========-=&#160;.::::</tspan>
-<tspan x="45" y="165.6">:.......:==--------------------:::::::::::::::::----===+=+-:..&#160;&#160;</tspan>
-<tspan x="45" y="173.8">::::....-==-----------------::::::------:::::-::::---==+++=-&#160;&#160;&#160;&#160;</tspan>
-<tspan x="45" y="182.0">:..:....====------::::::::::::::::::::::::::::::::::---==+++--&#160;&#160;</tspan>
-<tspan x="45" y="190.2">.......:===--------:::::::::::::::---------------------==++*++.&#160;</tspan>
-<tspan x="45" y="198.4">:::...:=+=====------:::-+##*++=-:::::::::---------------=======-</tspan>
-<tspan x="45" y="206.6">::....:======--------:=@@@@@@@@@@#-:-------------=-----======+++</tspan>
-<tspan x="45" y="214.8">.....:----:::::::::::.=@@@@@@@@@@@@.......::::::::::::--------==</tspan>
-<tspan x="45" y="223.0">::...-+======--------:%@#**++++*@@@::---------=-===========+=+++</tspan>
-<tspan x="45" y="231.2">...:.-===--------:::::=##@@**%@#=%*::::::::----------========+++</tspan>
-<tspan x="45" y="239.4">...:===--------:::::::-*++#*+++==++.:::.:::::::::::-----------==</tspan>
-<tspan x="45" y="247.6">.:.:+*++++========-----+#@@@@%%*+=----------=========+++========</tspan>
-<tspan x="45" y="255.8">:-::==--------------:::=@@@@@%@@*&#160;.:::::::::::--------==-------=</tspan>
-<tspan x="45" y="264.0">:-===---------:.&#160;&#160;....=%%%@@%%*@@=....&#160;&#160;&#160;.::::--:::::-----------</tspan>
-<tspan x="45" y="272.2">::+***+++++++=::..:::.=@=%%###@##%.::...&#160;.-=====================</tspan>
-<tspan x="45" y="280.4">:-*###******+:.::.:::.:@*-+%@#*-*-::::...&#160;.====+=++=++==++++++++</tspan>
-<tspan x="45" y="288.6">::----------:.:..:::::.=@*:*@:-@*::.::.:...:::::::::::::::::::::</tspan>
-<tspan x="45" y="296.8">*++++++++++=:....:=:.::.+%-:-.#%-:.::--:....============+=======</tspan>
-<tspan x="45" y="305.0">****######*:.....:=:...::@%:&#160;+%:.-+::+:.....============++=+=++=</tspan>
-<tspan x="45" y="313.2">########**=.....:=+:.....=@--@+.::::==-:...&#160;:=++++++++++++++++++</tspan>
-<tspan x="45" y="321.4">=---------:.....:--=:..:::+%@+::--:---=::...&#160;:::::::::::::::::::</tspan>
+{ascii_tspans}
 </text>
 
 <!-- Right Panel: SYSTEM.INFO -->
@@ -123,4 +171,17 @@
   <text x="520" y="554"><tspan class="label-val"> See live GitHub stats badges below in README ↓</tspan></text>
 </g>
 
-</svg>
+</svg>"""
+    return svg_content
+
+if __name__ == "__main__":
+    ascii_art = image_to_ascii(IMAGE_PATH)
+    dark_svg = build_svg(ascii_art, theme="dark")
+    light_svg = build_svg(ascii_art, theme="light")
+    
+    with open(DARK_OUTPUT_PATH, "w", encoding="utf-8") as f:
+        f.write(dark_svg)
+    with open(LIGHT_OUTPUT_PATH, "w", encoding="utf-8") as f:
+        f.write(light_svg)
+        
+    print("Successfully generated dark.svg and light.svg from photo!")
