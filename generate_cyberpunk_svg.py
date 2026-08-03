@@ -1,46 +1,32 @@
 import sys
+import os
+import base64
 from PIL import Image, ImageEnhance
-import html
+import io
 
-IMAGE_PATH = r"C:\Users\choya\OneDrive\Desktop\IMG_20260415_112529591_PORTRAIT2-892kb.jpg"
-DARK_OUTPUT_PATH = r"C:\Users\choya\khushal-jangid\dark.svg"
-LIGHT_OUTPUT_PATH = r"C:\Users\choya\khushal-jangid\light.svg"
+IMAGE_PATH = "profile.jpg"
+DARK_OUTPUT_PATH = "dark.svg"
+LIGHT_OUTPUT_PATH = "light.svg"
 
-# ASCII Charset for detailed portrait rendering
-ASCII_CHARS = "@%#*+=-:. "
-
-def image_to_ascii(img_path, width=54):
+def get_base64_image(img_path, max_dim=800):
     try:
         img = Image.open(img_path)
     except Exception as e:
         print(f"Error opening image: {e}")
         sys.exit(1)
         
-    # Full image (No Cropping) so full portrait & body is shown
-    w, h = img.size
-    aspect_ratio = h / w
-    height = int(width * aspect_ratio * 0.46)
-    height = min(height, 56) # Fits comfortably inside 525px panel
-    
-    img = img.resize((width, height))
-    img = img.convert("L")
-    
+    # Enhance contrast and sharpness slightly for cyberpunk aesthetic
     enhancer = ImageEnhance.Contrast(img)
-    img = enhancer.enhance(1.85)
+    img = enhancer.enhance(1.15)
     
-    pixels = img.getdata()
-    ascii_str = ""
-    for pixel in pixels:
-        index = int((pixel / 255) * (len(ASCII_CHARS) - 1))
-        ascii_str += ASCII_CHARS[index]
-        
-    ascii_lines = []
-    for i in range(0, len(ascii_str), width):
-        ascii_lines.append(ascii_str[i:i+width])
-        
-    return ascii_lines
+    img.thumbnail((max_dim, max_dim), Image.Resampling.LANCZOS)
+    
+    buffer = io.BytesIO()
+    img.save(buffer, format="JPEG", quality=90)
+    encoded = base64.b64encode(buffer.getvalue()).decode('utf-8')
+    return f"data:image/jpeg;base64,{encoded}"
 
-def build_svg(ascii_lines, theme="dark"):
+def build_svg(b64_image, theme="dark"):
     is_dark = (theme == "dark")
     
     bg_color = "#0B1120" if is_dark else "#F8FAFC"
@@ -57,28 +43,10 @@ def build_svg(ascii_lines, theme="dark"):
     text_dim = "#64748B" if is_dark else "#94A3B8"
     text_sec = "#10B981" if is_dark else "#059669"
     laser_color = "#00F5D4" if is_dark else "#0284C7"
-    
-    # ASCII Art tspan generation (FULL PORTRAIT)
-    tspan_lines = []
-    start_y = 102
-    line_spacing = 8.3
-    for idx, line in enumerate(ascii_lines):
-        y_pos = start_y + (idx * line_spacing)
-        escaped_line = html.escape(line).replace(" ", "&#160;")
-        tspan_lines.append(f'<tspan x="40" y="{y_pos:.1f}">{escaped_line}</tspan>')
-    ascii_tspans = "\n".join(tspan_lines)
+    hud_color = "#38BDF8" if is_dark else "#0284C7"
     
     svg_content = f"""<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="610" viewBox="0 0 1180 610">
 <defs>
-  <linearGradient id="asciiGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-    <stop offset="0%" stop-color="#22D3EE">
-      <animate attributeName="stop-color" values="#22D3EE;#7C3AED;#38BDF8;#22D3EE" dur="9s" repeatCount="indefinite"/>
-    </stop>
-    <stop offset="100%" stop-color="#7C3AED">
-      <animate attributeName="stop-color" values="#7C3AED;#38BDF8;#22D3EE;#7C3AED" dur="9s" repeatCount="indefinite"/>
-    </stop>
-  </linearGradient>
-
   <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
     <stop offset="0%" stop-color="{border_start}"/>
     <stop offset="50%" stop-color="{border_mid}"/>
@@ -92,7 +60,7 @@ def build_svg(ascii_lines, theme="dark"):
   </linearGradient>
 
   <pattern id="scanlines" width="4" height="4" patternUnits="userSpaceOnUse">
-    <rect width="4" height="1" fill="#7DD3FC" opacity="0.04"/>
+    <rect width="4" height="1" fill="#7DD3FC" opacity="0.05"/>
   </pattern>
 
   <filter id="glowFilter" x="-20%" y="-20%" width="140%" height="140%">
@@ -108,6 +76,10 @@ def build_svg(ascii_lines, theme="dark"):
       <animate attributeName="height" from="0" to="610" dur="2.2s" begin="0.1s" fill="freeze" calcMode="spline" keySplines="0.25 0.1 0.25 1"/>
     </rect>
   </mask>
+
+  <clipPath id="photoClip">
+    <rect x="35" y="95" width="440" height="475" rx="6"/>
+  </clipPath>
 </defs>
 
 <style>
@@ -122,13 +94,12 @@ def build_svg(ascii_lines, theme="dark"):
   .panel-box {{ fill: {panel_bg}; fill-opacity: 0.75; stroke: {panel_stroke}; stroke-width: 1; rx: 8; }}
   .panel-title {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 11px; letter-spacing: 2px; fill: {text_dim}; font-weight: bold; }}
   
-  .ascii-art {{ font-family: 'Courier New', monospace; font-size: 6.8px; fill: url(#asciiGrad); letter-spacing: 0.4px; }}
-  
   .user-header {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 15px; font-weight: bold; fill: {text_hdr}; }}
   .label-key {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; font-weight: bold; fill: {text_key}; }}
   .label-val {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; fill: {text_val}; }}
   .label-dim {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; fill: {text_dim}; }}
   .section-hdr {{ font-family: 'Fira Code', 'Courier New', monospace; font-size: 12.5px; font-weight: bold; fill: {text_sec}; }}
+  .hud-corner {{ stroke: {hud_color}; stroke-width: 2; fill: none; opacity: 0.85; }}
 </style>
 
 <!-- Main Container -->
@@ -148,25 +119,32 @@ def build_svg(ascii_lines, theme="dark"):
   <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite" />
 </text>
 
-<!-- Left Panel: VISUAL.MAP (FULL UNCROPPED PORTRAIT) -->
+<!-- Left Panel: VISUAL.MAP (FULL BOX CLEAR PORTRAIT WITH LASER SCANNING) -->
 <rect x="25" y="60" width="460" height="525" class="panel-box" />
 <text x="45" y="82" class="panel-title">V I S U A L . M A P</text>
 
-<text class="ascii-art">
-{ascii_tspans}
-</text>
+<!-- Embedded HD Clear Image Filling Full Panel Box -->
+<image x="35" y="95" width="440" height="475" href="{b64_image}" preserveAspectRatio="xMidYMid slice" clip-path="url(#photoClip)"/>
+
+<!-- HUD Corner Brackets Overlay -->
+<path d="M 45 110 L 45 100 L 55 100" class="hud-corner" />
+<path d="M 465 110 L 465 100 L 455 100" class="hud-corner" />
+<path d="M 45 555 L 45 565 L 55 565" class="hud-corner" />
+<path d="M 465 555 L 465 565 L 455 565" class="hud-corner" />
 
 <!-- Top-to-Bottom Moving Laser Beam Scanning Line (Left Panel Image Scan) -->
-<rect x="30" y="90" width="450" height="18" fill="url(#scanBeamGrad)" opacity="0.6">
-  <animate attributeName="y" from="90" to="560" dur="2.6s" repeatCount="indefinite" />
-</rect>
-<line x1="30" y1="108" x2="480" y2="108" stroke="{laser_color}" stroke-width="2.5" opacity="0.95" filter="url(#glowFilter)">
-  <animate attributeName="y1" from="108" to="578" dur="2.6s" repeatCount="indefinite" />
-  <animate attributeName="y2" from="108" to="578" dur="2.6s" repeatCount="indefinite" />
-</line>
+<g clip-path="url(#photoClip)">
+  <rect x="35" y="95" width="440" height="30" fill="url(#scanBeamGrad)" opacity="0.65">
+    <animate attributeName="y" from="95" to="570" dur="2.6s" repeatCount="indefinite" />
+  </rect>
+  <line x1="35" y1="125" x2="475" y2="125" stroke="{laser_color}" stroke-width="2.5" opacity="0.95" filter="url(#glowFilter)">
+    <animate attributeName="y1" from="125" to="600" dur="2.6s" repeatCount="indefinite" />
+    <animate attributeName="y2" from="125" to="600" dur="2.6s" repeatCount="indefinite" />
+  </line>
+</g>
 
 <!-- Global Terminal Vertical Scanning Beam (Top to Bottom across entire terminal) -->
-<line x1="25" y1="60" x2="1155" y2="60" stroke="#38BDF8" stroke-width="1.5" opacity="0.7" filter="url(#glowFilter)">
+<line x1="25" y1="60" x2="1155" y2="60" stroke="#38BDF8" stroke-width="1.5" opacity="0.6" filter="url(#glowFilter)">
   <animate attributeName="y1" from="60" to="580" dur="4s" repeatCount="indefinite" />
   <animate attributeName="y2" from="60" to="580" dur="4s" repeatCount="indefinite" />
 </line>
@@ -190,10 +168,10 @@ def build_svg(ascii_lines, theme="dark"):
   <text x="520" y="319"><tspan class="label-key">. Core.DevOps:</tspan><tspan class="label-dim"> .............................. </tspan><tspan class="label-val">Docker, Kubernetes, Jenkins, Actions, Terraform, Ansible</tspan></text>
   <text x="520" y="343"><tspan class="label-key">. Core.System:</tspan><tspan class="label-dim"> .............................. </tspan><tspan class="label-val">Linux, Bash Scripting, Networking, Git &amp; GitHub</tspan></text>
   <text x="520" y="367"><tspan class="label-key">. Core.Lang:</tspan><tspan class="label-dim"> ................................ </tspan><tspan class="label-val">Python</tspan></text>
-  <text x="520" y="391"><tspan class="label-key">. Core.Projects:</tspan><tspan class="label-dim"> ............................ </tspan><tspan class="label-val">Smart Secure File Sharing, Codeware, Cloud AI</tspan></text>
+  <text x="520" y="391"><tspan class="label-key">. Core.Projects:</tspan><tspan class="label-dim"> ............................ </tspan><tspan class="label-val">ApexMarket, Face Attendance, Gesture Control, Web OS</tspan></text>
 
   <text x="520" y="425" class="section-hdr">- Contact ----------------------------------------------------</text>
-  <text x="520" y="449"><tspan class="label-key">. Grid.Mail:</tspan><tspan class="label-dim"> ................................ </tspan><tspan class="label-val">choyal034@gmail.com</tspan></text>
+  <text x="520" y="449"><tspan class="label-key">. Grid.Mail:</tspan><tspan class="label-dim"> ................................ </tspan><tspan class="label-val">khushaljangra721@gmail.com</tspan></text>
   <text x="520" y="473"><tspan class="label-key">. Grid.LinkedIn:</tspan><tspan class="label-dim"> ............................ </tspan><tspan class="label-val">khushal-jangid</tspan></text>
   <text x="520" y="497"><tspan class="label-key">. Grid.Github:</tspan><tspan class="label-dim"> .............................. </tspan><tspan class="label-val">khushal-jangid</tspan></text>
 
@@ -205,13 +183,13 @@ def build_svg(ascii_lines, theme="dark"):
     return svg_content
 
 if __name__ == "__main__":
-    ascii_art = image_to_ascii(IMAGE_PATH)
-    dark_svg = build_svg(ascii_art, theme="dark")
-    light_svg = build_svg(ascii_art, theme="light")
+    b64_img = get_base64_image(IMAGE_PATH)
+    dark_svg = build_svg(b64_img, theme="dark")
+    light_svg = build_svg(b64_img, theme="light")
     
     with open(DARK_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(dark_svg)
     with open(LIGHT_OUTPUT_PATH, "w", encoding="utf-8") as f:
         f.write(light_svg)
         
-    print("Successfully generated dark.svg & light.svg with updated email and removed languages!")
+    print("Successfully generated clear dark.svg & light.svg filling V I S U A L . M A P panel!")
