@@ -119,8 +119,8 @@
   <a href="https://linkedin.com/in/khushal-jangid">
     <img src="https://img.shields.io/badge/LinkedIn-Khushal_Jangid-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
   </a>
-  <a href="mailto:choyal034@gmail.com">
-    <img src="https://img.shields.io/badge/Email-choyal034@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  <a href="mailto:khushaljangid89@gmail.com">
+    <img src="https://img.shields.io/badge/Email-khushaljangid89@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
   </a>
   <a href="https://github.com/khushal-jangid">
     <img src="https://img.shields.io/badge/GitHub-khushal--jangid-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub" />
